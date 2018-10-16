@@ -21,8 +21,6 @@ function ouchie() { run("ouchie") }
 start()
 
 function run(npos) {
-	console.log(npos)
-
 	if (ended)
 		return;
 
@@ -30,14 +28,14 @@ function run(npos) {
 		show("Don't go there!")
 	} else if (npos == "left") {
 		if (pos == "right") {
-			show("You win!")
+			show("Keep going!")
 			win(npos)
 		} else {
 			show("Get to the other side!")
 		}
 	} else if (npos == "right") {
 		if (pos == "left") {
-			show("You win!")
+			show("Keep going!")
 			win(npos)
 		} else if (pos == "out") {
 			flip()
@@ -77,12 +75,27 @@ function lose() {
 	POINTS.innerText = points
 	ended = true;
 	
-	let popup = document.createElement("div")
+	let highscore = localStorage.getItem("highscore") || 0
+	let isHighscore = points > highscore
+	if (isHighscore)
+		localStorage.setItem("highscore", points)
+
+	let popup = create("div")
 	popup.className = "popup"
-	popup.innerHTML =
-		"<h1>You lose!</h1><h2>" + points + "</h2>" +
-		"<h3>Points</h3>" +
-		"<button onclick='location.reload()'>Play again</button>"
+	popup.appendChild(create("h1", isHighscore ? "New highscore!" : "You lose!"))
+	popup.appendChild(create("h2", points))
+	if (isHighscore)
+		popup.appendChild(create("h3", "Previous highscore: " + highscore))
+	else
+		popup.appendChild(create("h3", "Highscore: " + highscore))
+	popup.innerHTML += "<button onclick='location.reload()'>Play again</button>"
 
 	document.body.appendChild(popup)
+}
+
+function create(tagName, text) {
+	let e = document.createElement(tagName)
+	if (text != null)
+		e.innerText = text
+	return e
 }
