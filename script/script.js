@@ -11,7 +11,7 @@ const RIGHT_END = document.getElementById("right-end")
 let pos = "out"
 let points = 0
 let hideTimeout
-let ended = false;
+let ended = false
 
 OUTSIDE.onmouseover = (e) => run("out")
 LEFT_END.onmouseover = (e) => run("left")
@@ -22,7 +22,7 @@ start()
 
 function run(npos) {
 	if (ended)
-		return;
+		return
 
 	if (npos == "out") {
 		show("Don't go there!")
@@ -73,7 +73,7 @@ function win(side) {
 
 function lose() {
 	POINTS.innerText = points
-	ended = true;
+	ended = true
 	
 	let highscore = localStorage.getItem("highscore") || 0
 	let isHighscore = points > highscore
